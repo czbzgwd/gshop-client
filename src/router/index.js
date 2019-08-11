@@ -15,6 +15,10 @@ Vue.use(VueRouter)
 export  default new VueRouter ({
   routes:[
     {
+      path:'/',
+      redirect:'/msite',
+    },
+    {
       path:'/msite',
       component:Msite,
     },
