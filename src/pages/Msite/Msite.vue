@@ -309,10 +309,10 @@
 </template>
 <script>
   import HeaderTop from "../../components/HeaderTop/HeaderTop";
-  import Swiper from 'swiper'
-  import 'swiper/dist/css/swiper.min.css'
+ // import Swiper from 'swiper'
+ // import 'swiper/dist/css/swiper.min.css'
   export default{
-    mounted() {
+   /* mounted() {
       //创建一个Swiper对象,实现轮播
       new Swiper('.swiper-container', {
        // direction: 'vertical', // 垂直切换选项
@@ -323,7 +323,7 @@
           el: '.swiper-pagination',
         }
       })
-    },
+    },*/
     components:{
       HeaderTop
     }
