@@ -1,6 +1,6 @@
 <template >
   <div class="footer_guide ">
-    <a href="javascript:;" class="guide_item" :class="{on: '/msite' === $route.path}" @click="goTo('/msite')">
+    <a href="javascript:;" class="guide_item" :class="{on: '/msite' == $route.path}" v-on:click="goTo('/msite')">
       <span class="item_icon">
         <i class="iconfont icon-waimai"></i>
       </span>
