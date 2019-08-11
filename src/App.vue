@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <router-view></router-view>
     <FooterGuide></FooterGuide>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -13,10 +13,11 @@
   }
 </script>
 
-<style lang="stylus"  rel="stylesheet/stylus">
-  #app{
-   width:100%;
-    height:100%;
-    background:red;
-  }
+<style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
+  #app
+    width 100%
+    height 100%
+    background #f5f5f5
+    position relative
+
 </style>
