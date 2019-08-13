@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <FooterGuide></FooterGuide>
     <router-view></router-view>
+    <!--$route代表当前路由-->
+    <FooterGuide v-if="$route.meta.showFooter"></FooterGuide>
   </div>
 </template>
 <script>
