@@ -78,8 +78,12 @@
             color #333
             font-size 14px
             padding-bottom 4px
+
             &:first-child
               margin-right 4px
+              margin-left 40px
+              float left
+              text-decoration none
             &.on
               color #02a774
               font-weight 700
