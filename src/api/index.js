@@ -3,9 +3,10 @@ import ajax from './ajax'
 const BASE_URL = '/api'
 //1根据经纬度获取位置详情,其中${}是取数据
 //示例http://localhost:3000/position/40.10038,116.36867
-export const reqAddress = (geohash) => ajax('${BASE_URL}/position/${geohash}')
+//export const reqAddress = (geohash) => ajax('${BASE_URL}/position/${geohash}')//该代码不能正常运行,注意ajax()中分号与下面能正常运行的代码的不同
+export const reqAddress = (geohash) => ajax(`${BASE_URL}/position/${geohash}`)
 //2、获取食品分类列表
-export const reqFoodTypes = () => ajax(BASE_URL+'/index_category')
+export const reqFoodCategorys = () => ajax(BASE_URL+'/index_category')
 //3、根据经纬度获取商铺列表
 //示例http://localhost:3000/shops?latitude=40.10038&longitude=116.36867
 //export const reqShops = ({longitude,latitude}) =>  ajax('/shops',{latitude,longitude})
