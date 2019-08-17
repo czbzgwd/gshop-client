@@ -22,7 +22,7 @@
             </a>
 
           </div>
-          <div class="swiper-slide">
+          <!--<div class="swiper-slide">
             <a href="javascript:" class="link_to_food">
               <div class="food_container">
                 <img src="./images/nav/9.jpg">
@@ -71,7 +71,7 @@
               </div>
               <span>土豪推荐</span>
             </a>
-          </div>
+          </div>-->
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
@@ -102,16 +102,7 @@
     },
     mounted() {
       this.$store.dispatch('getCategorys')
-      //创建一个Swiper对象,实现轮播
-      new Swiper('.swiper-container', {
-        // direction: 'vertical', // 垂直切换选项
-        loop: true, // 循环模式选项
 
-        // 如果需要分页器
-        pagination: {
-          el: '.swiper-pagination',
-        }
-      })
     },
     computed: {
       ...mapState(['address','categorys']),
@@ -133,6 +124,24 @@
         return arr
       }
 
+    },
+    watch:{
+      categorys(value){
+       //界面更新就立即创建Swiper对象.此条语句要写在数据更新之后
+        this.$nextTick(() =>{
+          //创建一个Swiper对象,实现轮播
+          new Swiper('.swiper-container', {
+            // direction: 'vertical', // 垂直切换选项
+            loop: true, // 循环模式选项
+
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination',
+            }
+          })
+        })
+
+      }
     },
     components: {
       HeaderTop,
