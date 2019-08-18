@@ -102,6 +102,7 @@
     },
     mounted() {
       this.$store.dispatch('getCategorys')
+      this.$store.dispatch('getShops')
 
     },
     computed: {
@@ -112,15 +113,31 @@
         const arr = []//空的二维数组
         let minArr = []
         categorys.forEach(c =>{
-
           if(minArr.length === 8){
             minArr = []
           }
           if(minArr.length === 0){
+            //console.log(minArr.length)//0
+           // console.log(minArr)
+            /*0: {…}
+            1: {…}
+            2: {…}
+            3: {…}
+            4: {…}
+            5: {…}
+            6: {…}
+            7: {…}*/
             arr.push(minArr)
           }
           minArr.push(c)
+          //这种方式仅适用于categorys中元素的个数是8的倍数的情况
+          /*minArr.push(c)
+          if(minArr.length === 8){
+            arr.push(minArr)
+            minArr = []
+          }*/
         })
+       // console.log(arr)
         return arr
       }
 

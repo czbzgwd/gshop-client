@@ -10,19 +10,12 @@
   import {reqFoodCategorys} from './api'
   import {mapActions} from 'vuex'
   export default{
-    /*async mounted(){
-        const result = await reqFoodCategorys()
-          console.log(result)
 
-    },*/
-   /*
-   mounted(){
-       reqFoodCategorys().then(response =>{
-         console.log(response.data)
-       })
-   },*/
    mounted(){
     // this.$store.dispatch('getAddress')
+     reqFoodCategorys().then(response =>{
+       console.log(response.data)
+     })
      this.getAddress()
    },
     methods:{
