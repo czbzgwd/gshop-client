@@ -14,8 +14,8 @@
    mounted(){
     // this.$store.dispatch('getAddress')
      reqFoodCategorys().then(response =>{
-       console.log(response.data)
-     })
+      // console.log(response.data)
+     }).catch()
      this.getAddress()
    },
     methods:{

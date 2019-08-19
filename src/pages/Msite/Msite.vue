@@ -108,6 +108,7 @@
     },
     computed: {
       ...mapState(['address','categorys']),
+
       //根据categorys一维数组生成一个二维数组,小数组中最大的个数为8
       categoryArr(){
         const {categorys} = this
