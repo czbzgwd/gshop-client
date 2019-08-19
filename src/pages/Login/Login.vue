@@ -4,13 +4,14 @@
       <div class="login_header">
         <h2 class="login_logo">硅谷外卖</h2>
         <div class="login_header_title">
-          <a href="javascript:;" :class="{on:loginWay}" @click="codeLogin">短信登录</a>
-          <a href="javascript:;" :class="{on:!loginWay}" @click="pwdLogin">密码登录</a>
+          <a href="javascript:;" :class="{on:loginWay}" @click="loginWay=true">短信登录</a>
+          <a href="javascript:;" :class="{on:!loginWay}" @click="loginWay=false">密码登录</a>
         </div>
       </div>
       <div class="login_content">
         <form>
-          <div class="on" v-if="isShow">
+         <!-- <div class="on" v-if="loginWay">-->
+          <div :class="{on:loginWay}" >
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder="手机号">
               <button disabled="disabled" class="get_verification">获取验证码</button>
@@ -23,7 +24,7 @@
               <a href="javascript:;">《用户服务协议》</a>
             </section>
           </div>
-          <div class="on" v-if = "!isShow">
+          <div :class="{on:!loginWay}">
             <section>
               <section class="login_message">
                 <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
@@ -58,19 +59,19 @@
         //loginWay控制短信登录和密码登录的样式.true代表短信登录,false代表密码登录
         loginWay:true,
         //isShow控制短信登录和密码登录的页面是否显示
-        isShow:true
+       // isShow:true
       }
-    },
+    }/*,
     methods:{
       codeLogin(){
         this.loginWay = true
         this.isShow = true
       },
       pwdLogin(){
-          this.loginWay = false,
-            this.isShow = false
+        this.loginWay = false,
+          this.isShow = false
       }
-    }
+    }*/
 
   }
 </script>
