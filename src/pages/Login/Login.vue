@@ -43,7 +43,8 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha"
+                     @click="getCaptcha">
               </section>
             </section>
           </div>
@@ -99,12 +100,12 @@
         }
 
       },
-
-      showAlert(alertText){
+      //简化代码
+      showAlert(alertText) {
         this.alertText = alertText
         this.alertShow = true
       },
-      
+
       //前台表单验证
       login() {
         //首先判断是短信登录还是密码登录
@@ -140,10 +141,16 @@
 
       },
       //关闭提示框
-      closeTip(){
+      closeTip() {
         this.alertShow = false
         this.alertText = ''
+      },
+      //图片验证码
+      getCaptcha(event) {
+        //每次指定的src值不同
+        event.target.src = 'http://localhost:4000/captcha?time = ' + Date.now()
       }
+
     },
     components: {
       AlertTip
