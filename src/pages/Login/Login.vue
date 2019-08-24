@@ -13,8 +13,8 @@
          <!-- <div class="on" v-if="loginWay">-->
           <div :class="{on:loginWay}" >
             <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号">
-              <button disabled="disabled" class="get_verification">获取验证码</button>
+              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
+              <button disabled="disabled" class="get_verification" :class = "{right_phone:rightPhone}">获取验证码</button>
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -37,12 +37,12 @@
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
+                <input type="text" maxlength="11" placeholder="验证码" >
                 <img class="get_verification" src="./images/captcha.svg" alt="captcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" >登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -58,20 +58,16 @@
       return {
         //loginWay控制短信登录和密码登录的样式.true代表短信登录,false代表密码登录
         loginWay:true,
+        phone:''
         //isShow控制短信登录和密码登录的页面是否显示
        // isShow:true
       }
-    }/*,
-    methods:{
-      codeLogin(){
-        this.loginWay = true
-        this.isShow = true
-      },
-      pwdLogin(){
-        this.loginWay = false,
-          this.isShow = false
+    },
+    computed:{
+      rightPhone(){
+        return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.phone)
       }
-    }*/
+    }
 
   }
 </script>
@@ -141,6 +137,8 @@
                 color #ccc
                 font-size 14px
                 background transparent
+                &.right_phone
+                  color black
             .login_verification
               position relative
               margin-top 16px
