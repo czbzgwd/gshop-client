@@ -10,13 +10,14 @@
       </div>
       <div class="login_content">
         <form>
-          <!-- <div class="on" v-if="loginWay">-->
-          <div :class="{on:loginWay}">
+         <!-- <div class="on" v-if="loginWay">-->
+          <div :class="{on:loginWay}" >
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
-              <button :disabled="sendAuthCode" class="get_verification" @click="getVerifyCodes"
-                      :class="{right_phone:rightPhone}">{{btnTxt}}
-              </button>
+              <button :disabled="!rightPhone" class="get_verification" :class = "{right_phone:rightPhone}"
+              @click.prevent="getCode">
+                {{computeTime>0?`已发送(${computeTime}s)`:"获取验证码"}}</button>
+               <!-- {{computeTime>0?computeTime+'s':"获取验证码"}}</button>-->
             </section>
             <section class="login_verification">
               <input type="tel" maxlength="8" placeholder="验证码">
@@ -39,12 +40,12 @@
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
+                <input type="text" maxlength="11" placeholder="验证码" >
                 <img class="get_verification" src="./images/captcha.svg" alt="captcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" >登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -56,49 +57,34 @@
 </template>
 <script>
   export default {
-    data() {
+    data(){
       return {
         //loginWay控制短信登录和密码登录的样式.true代表短信登录,false代表密码登录
-        loginWay: true,
-        phone: '',
-        btnTxt: '获取验证码',
-        auth_time:60,
-        sendAuthCode:true
-        //isShow控制短信登录和密码登录的页面是否显示
-        // isShow:true
+        loginWay:true,
+        phone:'',
+        computeTime:0
       }
     },
-    computed: {
-      rightPhone() {
-        if(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.phone)){
-          this.sendAuthCode = false
-          return true
+    computed:{
+      rightPhone(){
+        return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.phone)
+      }
+    },
+    methods:{
+      getCode(){
+        //启动定时器
+        if(!this.computeTime){
+          this.computeTime = 10
+          const intervalId = setInterval(() =>{
+            this.computeTime--
+            if(this.computeTime <=0){
+              //停止计时
+              clearInterval(intervalId)
+            }
+          },1000)
+          //发送ajax请求短信验证码
         }
 
-      }
-    },
-    methods: {
-      getVerifyCodes(){
-        this.auth_time = 60
-        this.getAuthCode()
-      },
-      getAuthCode() {
-        /*if (this.authTimeTimer) {//这个if判断没用
-          clearTimeout(this.authTimeTimer)
-        }*/
-
-        this.authTimeTimer = setTimeout(() => {
-          this.auth_time -= 1
-          this.sendAuthCode = true
-          this.btnTxt = `${this.auth_time}S后重新发送`
-          if (this.auth_time < 0) {
-            this.sendAuthCode = false//按钮可用
-            clearTimeout(this.authTimeTimer)//停止setTimeout()
-            this.btnTxt = '获取验证码'
-          } else {
-            this.getAuthCode()
-          }
-        }, 1000)
       }
     }
 
@@ -111,24 +97,20 @@
     width 100%
     height 100%
     background #fff
-
     .loginInner
       padding-top 60px
       width 80%
       margin 0 auto
-
       .login_header
         .login_logo
           font-size 40px
           font-weight bold
           color #02a774
           text-align center
-
         .login_header_title
           padding-top 40px
           text-align center
-
-          > a
+          >a
             color #333
             font-size 14px
             padding-bottom 4px
@@ -138,20 +120,16 @@
               margin-left 40px
               float left
               text-decoration none
-
             &.on
               color #02a774
               font-weight 700
               border-bottom 2px solid #02a774
-
       .login_content
-        > form
-          > div
+        >form
+          >div
             display none
-
             &.on
               display block
-
             input
               width 100%
               height 100%
@@ -161,17 +139,14 @@
               border-radius 4px
               outline 0
               font 400 14px Arial
-
               &:focus
                 border 1px solid #02a774
-
             .login_message
               position relative
               margin-top 16px
               height 48px
               font-size 14px
               background #fff
-
               .get_verification
                 position absolute
                 top 50%
@@ -181,22 +156,19 @@
                 color #ccc
                 font-size 14px
                 background transparent
-
                 &.right_phone
                   color black
-
             .login_verification
               position relative
               margin-top 16px
               height 48px
               font-size 14px
               background #fff
-
               .switch_button
                 font-size 12px
                 border 1px solid #ddd
                 border-radius 8px
-                transition background-color .3s, border-color .3s
+                transition background-color .3s,border-color .3s
                 padding 0 6px
                 width 30px
                 height 16px
@@ -206,18 +178,14 @@
                 top 50%
                 right 10px
                 transform translateY(-50%)
-
                 &.off
                   background #fff
-
                   .switch_text
                     float right
                     color #ddd
-
                 &.on
                   background #02a774
-
-                > .switch_circle
+                >.switch_circle
                   //transform translateX(27px)
                   position absolute
                   top -1px
@@ -227,18 +195,15 @@
                   border 1px solid #ddd
                   border-radius 50%
                   background #fff
-                  box-shadow 0 2px 4px 0 rgba(0, 0, 0, .1)
+                  box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
-
             .login_hint
               margin-top 12px
               color #999
               font-size 14px
               line-height 20px
-
-              > a
+              >a
                 color #02a774
-
           .login_submit
             display block
             width 100%
@@ -251,22 +216,19 @@
             font-size 16px
             line-height 42px
             border 0
-
         .about_us
           display block
           font-size 12px
           margin-top 20px
           text-align center
           color #999
-
       .go_back
         position absolute
         top 5px
         left 5px
         width 30px
         height 30px
-
-        > .iconfont
+        >.iconfont
           font-size 20px
           color #999
 </style>
