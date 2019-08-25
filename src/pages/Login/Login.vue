@@ -167,6 +167,8 @@
         if (result.code === 0) {
           //登录成功将信息保存到vuex中
           const user = result.data
+          console.log("user"+user._id)
+          this.$store.dispatch('recordUser',result.data)
           //跳转到个人中心页面
           this.$router.replace('/profile')
         } else {
