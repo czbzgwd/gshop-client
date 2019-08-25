@@ -44,7 +44,7 @@
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
                 <img class="get_verification" src="http://localhost:4000/captcha" alt="captcha"
-                     @click="getCaptcha">
+                     @click="getCaptcha" ref="captcha">
               </section>
             </section>
           </div>
@@ -61,7 +61,8 @@
 </template>
 <script>
   import AlertTip from '../../components/AlertTip/AlertTip'
-  import {reqSendCode,reqSmsLogin,reqPwdLogin} from '../../api'
+  import {reqSendCode, reqSmsLogin, reqPwdLogin} from '../../api'
+
   export default {
     data() {
       return {
@@ -80,13 +81,13 @@
     },
     computed: {
       rightPhone() {
-       /* return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.phone)*/
+        /* return /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.phone)*/
         return /^1\d{10}$/.test(this.phone)
       }
     },
     methods: {
       //手机验证码倒计时
-    async  getCode() {
+      async getCode() {
         //启动定时器
         if (!this.computeTime) {
           this.computeTime = 30
@@ -98,16 +99,17 @@
             }
           }, 1000)
           //发送ajax请求短信验证码
-         const result = await reqSendCode(this.phone)
-         if(result.code === 1){
-           //显示提示信息
-           this.showAlert(result.msg)
-             //停止计时
-           if(this.computeTime){
-             this.computeTime = 0
-             clearInterval(this.intervalId)
-           }
-         }
+          const result = await reqSendCode(this.phone)
+          if (result.code === 1) {
+            //显示提示信息
+            this.showAlert(result.msg)
+            //停止计时
+            if (this.computeTime) {
+              this.computeTime = 0
+              clearInterval(this.intervalId)
+              this.intervalId = undefined
+            }
+          }
         }
 
       },
@@ -118,7 +120,8 @@
       },
 
       //前台表单验证
-      login() {
+      async login() {
+        let result
         //首先判断是短信登录还是密码登录
         if (this.loginWay) {//短信验证登录
           //取出手机号和验证码
@@ -132,6 +135,9 @@
             this.showAlert('验证码必须是6位数字')
             return
           }
+          //发送ajax请求短信登录
+          result = await reqSmsLogin(phone, code)
+
         } else {//密码验证登录
           const {name, pwd, captcha} = this
           if (!name) {
@@ -147,8 +153,33 @@
             this.showAlert('图形验证码不能为空')
             return
           }
-        }
+          //发送ajax请求密码登录
+          result = await reqPwdLogin({name, pwd, captcha})
 
+        }
+        //停止计时
+        if (this.computeTime) {
+          this.computeTime = 0
+          clearInterval(this.intervalId)
+          this.intervalId = undefined
+        }
+        //判断登录成功与否
+        if (result.code === 0) {
+          //登录成功将信息保存到vuex中
+          const user = result.data
+          //跳转到个人中心页面
+          this.$router.replace('/profile')
+        } else {
+          //登录失败后,显示新的图片验证码
+          this.getCaptcha()
+          const msg = result.msg
+          //显示错误提示
+          this.showAlert(msg)
+          //将密码置为空
+          if(this.pwd != null){
+            this.pwd = null
+          }
+        }
 
       },
       //关闭提示框
@@ -157,9 +188,13 @@
         this.alertText = ''
       },
       //图片验证码
-      getCaptcha(event) {
+      /*getCaptcha(event) {
         //每次指定的src值不同
         event.target.src = 'http://localhost:4000/captcha?time = ' + Date.now()
+      }*/
+      getCaptcha() {
+        //每次指定的src值不同
+        this.$refs.captcha.src = 'http://localhost:4000/captcha?time = ' + Date.now()
       }
 
     },
