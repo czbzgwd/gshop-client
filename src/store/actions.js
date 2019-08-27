@@ -1,5 +1,5 @@
 /*通过mutations间接更新state的多个方法对象*/
-import {reqAddress, reqFoodCategorys, reqShops} from '../api'
+import {reqAddress, reqFoodCategorys, reqShops,reqUserInfo} from '../api'
 import {RECEIVE_ADDRESS, RECEIVE_CATEGORYS, RECEIVE_SHOPS,RECEIVE_USER_INFO} from './mutation-types'
 
 export default {
@@ -35,5 +35,13 @@ export default {
   // 同步记录用户信息
   recordUser({commit}, userInfo) {
     commit(RECEIVE_USER_INFO, {userInfo})
+  },
+  //异步获取用户信息
+  async getUserInfo({commit}){
+    const result = await reqUserInfo()
+    if(result.code == 0){
+      const userInfo = result.data
+      commit(RECEIVE_USER_INFO, {userInfo})
+    }
   }
 }
