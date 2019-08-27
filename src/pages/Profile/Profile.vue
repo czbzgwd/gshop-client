@@ -4,7 +4,7 @@
     </HeaderTop>
     <section class="profile-number">
       <!--<a href="javascript:" class="profile-link">-->
-      <router-link to="/login" class="profile-link">
+      <router-link :to="userInfo._id ?'/userInfo':'/login'" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
