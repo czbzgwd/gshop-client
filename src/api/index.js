@@ -32,3 +32,11 @@ export const reqUserInfo = () => ajax(BASE_URL+'/userinfo')
 //10、用户登出
 //示例http://localhost:3000/logout
 export const reqLogout = () => ajax(BASE_URL+'/logout')
+
+//注意不能加BASE_URL,因为他不需要代理提供拦截
+//获取商家信息
+export const reqShopInfo = () =>ajax('/info')
+//获取商家评价数组
+export const reqShopRatings = () => ajax('/ratings')
+//获取商家商品数组
+export const reqShopGoods = () => ajax('/goods')
