@@ -3,7 +3,7 @@
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-          <li class="menu-item current" v-for="(good,index) in goods" :key="index">
+          <li class="menu-item " v-for="(good,index) in goods" :key="index" :class="{current:index === currentIndex}">
             <span class="text bottom-border-1px">
               <img class="icon"
                    :src="good.icon" v-if="good.icon">
@@ -45,8 +45,17 @@
 <script>
   import {mapState} from "vuex"
   export default {
+    data(){
+      return{
+        scrollY:0,//右侧滑动的Y轴坐标(滑动过程实时变化)
+        tops:[],//所有右侧分类li的top组成的数组(列表第一次显示后就不再变化)
+      }
+    },
     computed:{
-      ...mapState(['goods'])
+      ...mapState(['goods']),
+      currentIndex(){
+
+      }
     },
     mounted(){
       this.$store.dispatch("getShopGoods")
