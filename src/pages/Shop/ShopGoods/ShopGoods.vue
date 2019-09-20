@@ -62,8 +62,18 @@
       this.$store.dispatch("getShopGoods",() =>{//数据更新之后执行
         this.$nextTick(() =>{//列表数据更新显示之后执行
           //列表显示之后创建
-          new BScroll('.menu-wrapper')
-          new BScroll('.foods-wrapper')
+           new BScroll('.menu-wrapper',{
+
+          })
+          const foodsScroll = new BScroll('.foods-wrapper',{
+            probeType:2 //因为惯性滑动不会触发
+          })
+
+          //给右侧列表绑定scroll监听
+          foodsScroll.on('scroll',({x,y}) =>{
+           console.log(x,y)
+            this.scrollY = Math.abs(y)
+          })
         })
       })
     }
