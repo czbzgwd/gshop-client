@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="foods-wrapper" >
-        <ul>
+        <ul ref="foodUl">
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -61,21 +61,42 @@
     mounted(){
       this.$store.dispatch("getShopGoods",() =>{//数据更新之后执行
         this.$nextTick(() =>{//列表数据更新显示之后执行
-          //列表显示之后创建
-           new BScroll('.menu-wrapper',{
-
-          })
-          const foodsScroll = new BScroll('.foods-wrapper',{
-            probeType:2 //因为惯性滑动不会触发
-          })
-
-          //给右侧列表绑定scroll监听
-          foodsScroll.on('scroll',({x,y}) =>{
-           console.log(x,y)
-            this.scrollY = Math.abs(y)
-          })
+          this._initScroll()
+          this._initTops()
         })
       })
+    },
+    methods:{
+      //初始化滚动条
+      _initScroll(){
+        //列表显示之后创建
+        new BScroll('.menu-wrapper',{
+        })
+        const foodsScroll = new BScroll('.foods-wrapper',{
+          probeType:2 //因为惯性滑动不会触发
+        })
+        //给右侧列表绑定scroll监听
+        foodsScroll.on('scroll',({x,y}) =>{
+          console.log(x,y)
+          this.scrollY = Math.abs(y)
+        })
+      },
+      _initTops(){
+        //1、初始化tops
+        const tops = []
+        let top = 0
+        tops.push(top)
+        //2、收集
+        // const lis = this.$refs.foodUl.children
+        const lis = this.$refs.foodUl.getElementsByClassName("food-list-hook")
+        Array.prototype.slice.call(lis).forEach(li =>{
+          top += li.clientHeight
+          tops.push(top)
+        })
+        //3、更新数据
+        this.tops = tops
+        console.log(tops)
+      }
     }
   }
 </script>
