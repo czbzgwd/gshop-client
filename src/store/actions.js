@@ -68,11 +68,13 @@ export default {
     }
   },
   //异步获取商品信息
-  async getShopGoods({commit}){
+  async getShopGoods({commit},callback){
     const result = await reqShopGoods()
     if(result.code == 0){
       const goods = result.data
       commit(RECEIVE_GOODS,{goods})
+      //数据更新了，通知组件 54_尚硅谷_Vue项目_使用better-scroll实现回弹滑动16'50"
+      callback && callback() //添加callback &&是因为callback可能存在不传的情况
     }
   },
   //异步获取商家评价信息
