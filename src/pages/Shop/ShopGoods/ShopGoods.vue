@@ -54,8 +54,16 @@
     },
     computed:{
       ...mapState(['goods']),
-      currentIndex(){
-
+      currentIndex(){//计算属性在初始时执行和数据发生变化的时候执行
+        //得到条件数据
+        const {scrollY,tops} = this
+        //根据条件计算产生一个结果
+        const index = tops.findIndex((top,index) =>{
+          return scrollY >= top && scrollY <= tops[index+1]
+        }
+          )
+        //返回结果
+        return index
       }
     },
     mounted(){
