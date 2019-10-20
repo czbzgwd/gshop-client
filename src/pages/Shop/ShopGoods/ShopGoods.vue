@@ -85,6 +85,11 @@
         })
         //给右侧列表绑定scroll监听
         foodsScroll.on('scroll',({x,y}) =>{
+         // console.log(x,y)
+          this.scrollY = Math.abs(y)
+        })
+        //给右侧列表绑定scrollEnd滚动结束监听
+        foodsScroll.on('scrollEnd',({x,y}) =>{
           console.log(x,y)
           this.scrollY = Math.abs(y)
         })
@@ -103,7 +108,7 @@
         })
         //3、更新数据
         this.tops = tops
-        console.log(tops)
+       // console.log(tops)
       }
     }
   }
