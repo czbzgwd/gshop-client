@@ -33,7 +33,9 @@
                     <span class="now">￥{{food.price}}</span>
                     <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
-                  <div class="cartcontrol-wrapper"> CartControl</div>
+                  <div class="cartcontrol-wrapper">
+                    <CartControl :food="food"/>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -46,12 +48,16 @@
 <script>
   import BScroll from 'better-scroll'
   import {mapState} from "vuex"
+  import CartControl from '../../../components/CartControl/CartControl.vue'
   export default {
     data(){
       return{
         scrollY:0,//右侧滑动的Y轴坐标(滑动过程实时变化)
         tops:[],//所有右侧分类li的top组成的数组(列表第一次显示后就不再变化)
       }
+    },
+    components:{
+      CartControl
     },
     computed:{
       ...mapState(['goods']),
@@ -120,13 +126,13 @@
       //立即更新scrollY(让点击的分类成为当前分类)
       this.scrollY = -scrollY;
       //平滑滚动右侧列表
-      this.foodsScroll.scrollTo(0,-scrollY,200);
+      this.foodsScroll.scrollTo(0,-scrollY,500);
       }
     }
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../common/stylus/mixins.styl"
+  @import "../../../common/stylus/mixins.styl";
   .goods
     display: flex
     position: absolute
