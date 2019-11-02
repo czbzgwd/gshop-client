@@ -1,10 +1,10 @@
 <template>
   <div class="cartcontrol">
     <transition name="move">
-      <div class="iconfont icon-remove_circle_outline" v-if="food.count"></div>
+      <div class="iconfont icon-remove_circle_outline" v-if="food.count" @click.stop="updateFoodCount(false)"></div>
     </transition>
-    <div class="cart-count" >{{food.count}}</div>
-    <div class="iconfont icon-add_circle" v-if="food.count"></div>
+    <div class="cart-count" v-if="food.count">{{food.count}}</div>
+    <div class="iconfont icon-add_circle" @click.stop="updateFoodCount(true)"></div>
   </div>
 </template>
 
@@ -15,9 +15,11 @@
     },
 
     methods: {
-     /* updateFoodCount (isAdd) {
+      //不能直接修改food,因为该属性是从父类中传过来的
+      updateFoodCount (isAdd) {
+        //传多个数据时就用对象
         this.$store.dispatch('updateFoodCount', {isAdd, food: this.food})
-      }*/
+      }
     }
   }
 </script>
